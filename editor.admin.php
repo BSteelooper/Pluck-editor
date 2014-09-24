@@ -2,12 +2,15 @@
 //This is a module for pluck, an opensource content management system
 //Website: http://www.pluck-cms.org
 
-//MODULE NAME: RSS Reader
-//DESCRIPTION: this modules lets an user add an RSS Feed to a page
 //Make sure the file isn't accessed directly
 defined('IN_PLUCK') or exit('Access denied!');
+
 function read_style($theme) {
 	return file_get_contents('data/themes/' . $theme . '/style.css');
+}
+
+function read_themes($theme) {
+	return file_get_contents('data/themes/' . $theme . '/theme.php');
 }
 
 function save_style($theme, $content) {
@@ -15,10 +18,6 @@ function save_style($theme, $content) {
 	$content = stripslashes($content);
 	fputs($file, $content);
 	fclose($file);
-}
-
-function read_themes($theme) {
-	return file_get_contents('data/themes/' . $theme . '/theme.php');
 }
 
 function save_themes($theme, $content) {
@@ -64,7 +63,7 @@ function editor_page_admin_Theme() {
 	//Allow module to manipulate theme
 	$page_theme = THEME;
 	run_hook('site_theme', array(&$page_theme));
-	global $lang;
+	global $lang, $cont1;
 ?>
 	<form method="post" action="">
 		<label class="kop2" for="cont1"><?php echo $lang['editor']['content_theme']; ?></label>
@@ -77,7 +76,6 @@ function editor_page_admin_Theme() {
 <?php
 	//Save style.
 	if (isset($_POST['Submit'])) {
-		$cont1 = $_POST['cont1'];
 		save_themes($page_theme, $cont1);
 		redirect('admin.php?module=editor', 0);
 	}
@@ -87,7 +85,7 @@ function editor_page_admin_CSS() {
 	//Allow module to manipulate css
 	$page_theme = THEME;
 	run_hook('site_theme', array(&$page_theme));
-	global $lang;
+	global $lang, $cont1;
 ?>
 	<form method="post" action="">
 		<label class="kop2" for="cont1"><?php echo $lang['editor']['content_css']; ?></label>
@@ -100,15 +98,16 @@ function editor_page_admin_CSS() {
 <?php
 	//Save style.
 	if (isset($_POST['Submit'])) {
-		$cont1 = $_POST['cont1'];
 		save_style($page_theme, $cont1);
 		redirect('admin.php?module=editor', 0);
 	}
 }
  
 function editor_page_admin_Info() {
-	echo "<p><a href=\"?module=editor\"><<< Back</a></p>";
+	global $lang;
+
+	echo '<p><a href="?module=editor"><<< '.$lang['general']['back'].'</a></p>';
 	phpinfo();
-	echo "<p><a href=\"?module=editor\"><<< Back</a></p>";
+	echo '<p><a href="?module=editor"><<< '.$lang['general']['back'].'</a></p>';
 }
 ?>
