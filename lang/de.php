@@ -1,6 +1,6 @@
 <?php
 //lang file for editor module
-// Translation ported into German by Tim Kalender, tim@kalenderfamily.de 2014
+//Translation ported into German by Tim Kalender, tim@kalenderfamily.de 2014
 //part of Pluck-cms
 
 $lang['editor']['name'] = 'Template editor module';
